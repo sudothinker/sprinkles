@@ -1,27 +1,17 @@
 require File.expand_path('../helper', __FILE__)
 
-# Start the application with:
-#
-#     $ cd /var/applications/demo && bundle exec thin --socket /tmp/thin.sock --server 3 --environment production --tag demoapp --rackup config.ru start
-#
-#
-
-policy :rails_stack_nginx_unicorn, :roles => :app do
+policy :rails_stack, :roles => :app do
   requires :tools
   requires :settings
+  requires :version_control
 
   requires :ruby
-
-  requires :nginx
-
-  requires :unicorn
-
   requires :rails
 
-  requires :mongo
-  requires :redis
-
-  requires :version_control
+  requires :webserver
+  requires :appserver
+  requires :database
+  requires :redis  
 end
 
 deployment do

@@ -1,6 +1,5 @@
-package :mongo do
+package :mongo, :provides => :database do
   description 'MongoDB Database'
-
   packages = %w{mongodb-10gen}
 
   runner "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10"
