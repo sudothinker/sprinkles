@@ -6,7 +6,7 @@ require File.expand_path('../helper', __FILE__)
 #
 #
 
-policy :rails_stack_nginx_thin, :roles => :app do
+policy :rails_stack_nginx_unicorn, :roles => :app do
   requires :tools
   requires :settings
 
@@ -15,8 +15,6 @@ policy :rails_stack_nginx_thin, :roles => :app do
   requires :nginx
 
   requires :unicorn
-  # requires :thin_configuration
-  # requires :nginx_configuration
 
   requires :rails
 
