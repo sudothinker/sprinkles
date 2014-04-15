@@ -14,13 +14,14 @@ policy :rails_stack_nginx_thin, :roles => :app do
 
   requires :nginx
 
-  requires :thin
-  requires :thin_configuration
-  requires :nginx_configuration
+  requires :unicorn
+  # requires :thin_configuration
+  # requires :nginx_configuration
 
   requires :rails
 
-  requires :sqlite
+  requires :mongo
+  requires :redis
 
   requires :version_control
 end
