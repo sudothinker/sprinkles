@@ -4,6 +4,10 @@ package :build_essential do
   description 'Build tools'
   apt 'build-essential' do
     pre :install, 'apt-get update'
+    post :install, 'apt-get -y install aptitude'
+    post :install, 'aptitude -y full-upgrade'
+    post :install, 'aptitude -y install htop iotop bsd-mailx python-software-properties zsh'
+    post :install, 'aptitude -y install build-essential gcc'
   end
 
   apt 'bash' do

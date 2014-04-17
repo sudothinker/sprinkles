@@ -1,16 +1,14 @@
 require File.expand_path('../helper', __FILE__)
 
 policy :rails_stack, :roles => :app do
-  requires :tools
-  requires :settings
-  requires :version_control
+  requires :base
 
-  # requires :deployer
+  requires :make_users
+  requires :git
 
   requires :ruby
   requires :rubygems
   requires :bundler
-  # requires :rails
 
   requires :webserver
   requires :appserver
@@ -32,5 +30,4 @@ deployment do
     archives '/usr/local/sources'   # where all source packages will be downloaded to
     builds   '/usr/local/build'     # where all source packages will be built
   end
-
 end
