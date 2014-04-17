@@ -5,9 +5,11 @@ policy :rails_stack, :roles => :app do
   requires :settings
   requires :version_control
 
-  requires :deployer
+  # requires :deployer
 
   requires :ruby
+  requires :rubygems
+  requires :bundler
   # requires :rails
 
   requires :webserver

@@ -1,7 +1,7 @@
 package :rubygems do
   requires :ruby
   description 'Ruby Gems Package Management System'
-  version '1.8.11'
+  version '2.2.2'
 
   source "http://production.cf.rubygems.org/rubygems/rubygems-#{version}.tgz" do
     custom_install 'ruby setup.rb'
