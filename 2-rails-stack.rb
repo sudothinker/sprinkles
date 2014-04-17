@@ -15,6 +15,7 @@ policy :rails_stack, :roles => :app do
   requires :webserver
   requires :appserver
   requires :database
+  requires :search
   requires :redis
 end
 
