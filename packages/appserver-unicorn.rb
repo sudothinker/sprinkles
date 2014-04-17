@@ -10,12 +10,13 @@ package :upstream_configuration do
   description "Nginx as Reverse Proxy Configuration for Unicorn"
   requires :nginx
   
-  config_file = "/usr/local/nginx/sites-available/#{APP_NAME}"
+  config_file = "/etc/nginx/sites-available/#{APP_NAME}"
   config_template = ERB.new(File.read(File.join(File.join(File.dirname(__FILE__), '..', 'configurations'), 'unicorn.conf.erb'))).result
   
   # if config_file exists then remove it
-  runner "[[ -e #{config_file} ]] && rm #{config_file}"
-  push_text config_template, config_file
+  runner "rm -f #{config_file}"
+  runner "touch #{config_file}"
+  push_text config_template, config_file, sudo: true
 
   verify do
     has_file config_file
@@ -28,8 +29,8 @@ package :enable_site do
   description "Symlink vhost file into sites_enabled"
   requires :upstream_configuration
 
-  config_file = "/usr/local/nginx/sites-available/#{APP_NAME}"
-  symlink_file = "/usr/local/nginx/sites-enabled/#{APP_NAME}"
+  config_file = "/etc/nginx/sites-available/#{APP_NAME}"
+  symlink_file = "/etc/nginx/sites-enabled/#{APP_NAME}"
 
   runner "ln -s #{config_file} #{symlink_file}"
 

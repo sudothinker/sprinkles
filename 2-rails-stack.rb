@@ -5,18 +5,22 @@ policy :rails_stack, :roles => :app do
   requires :settings
   requires :version_control
 
+  requires :deployer
+
   requires :ruby
-  requires :rails
+  # requires :rails
 
   requires :webserver
   requires :appserver
   requires :database
-  requires :redis  
+  requires :redis
 end
 
 deployment do
 
   delivery :capistrano do
+    set :use_sudo, true
+    set :run_method, :sudo
     recipes ENV['RECIPE'] || 'deploy'
   end
 

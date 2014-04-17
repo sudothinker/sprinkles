@@ -3,7 +3,7 @@ package :rails do
   description 'Ruby on Rails'
   version '3.0.10'
 
-  applications_directory = '/var/applications/'
+  applications_directory = '/var/www/'
 
   gem 'rails' do
     post :install, "mkdir -p #{applications_directory}"
