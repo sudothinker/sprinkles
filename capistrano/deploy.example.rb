@@ -1,42 +1,62 @@
-# Example Capistrano configuration file
-# =====================================
-#
-# In real world, use different SCM than "none".
+# config valid only for Capistrano 3.1
+lock '3.2.0'
 
-set :application, "demo"
+set :application, ''
+set :repo_url, ''
 
-role :web, ENV['DEMO_DEPLOY_HOSTNAME']
-role :app, ENV['DEMO_DEPLOY_HOSTNAME']
-role :db,  ENV['DEMO_DEPLOY_HOSTNAME'], :primary => true
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-set :scm, :none
-set :repository,  "."
-set :deploy_via, :copy
-set :deploy_to, "/var/applications/#{application}"
-set :user, ENV['DEMO_DEPLOY_USERNAME'] || "deployer"
-set :use_sudo, false
-set :keep_releases, 3
-default_run_options[:pty] = true
+# Default deploy_to directory is /var/www/my_app
+# set :deploy_to, '/var/www/my_app'
 
-# -   Authenticate with key pair, not password
-# ssh_options[:keys] = [ File.dirname('/path/to/your/private/key') ]
+# Default value for :scm is :git
+# set :scm, :git
+set :ssh_options, {
+  forward_agent: true
+}
 
-after "deploy:update_code" do
-  run "cd #{release_path} && #{sudo} bundle install --no-color && rake db:migrate RAILS_ENV=production"
-  run "ln -nfs #{shared_path}/production.sqlite3  #{release_path}/db/production.sqlite3"
-end
+# Default value for :format is :pretty
+# set :format, :pretty
+
+# Default value for :log_level is :debug
+# set :log_level, :debug
+
+# Default value for :pty is false
+# set :pty, true
+
+# Default value for :linked_files is []
+# set :linked_files, %w{config/database.yml}
+
+# Default value for linked_dirs is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
 namespace :deploy do
-  task :stop,  :roles => :app do; end
-  task :start, :roles => :app do; end
-  task :restart, :roles => :app do
-    run "cd #{current_path} && touch tmp/restart.txt"
-  end
-end
 
-namespace :tail do
-  desc "Tail production.log"
-  task :default do
-    run "tail -n 100 #{deploy_to}/current/log/production.log"
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      invoke 'unicorn:restart'
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+    end
   end
+
+  after :publishing, :restart
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
+  end
+
 end

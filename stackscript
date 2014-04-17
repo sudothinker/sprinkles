@@ -22,6 +22,7 @@
 # <UDF name="user_shell" label="Shell" oneof="/bin/zsh,/bin/bash" default="/bin/bash" />
 
 # <UDF name="sys_hostname" label="System hostname" default="myvps" example="Name of your server, i.e. linode1." />
+# <UDF name="app_dir" label="Application directory" default="/var/www" example="Directory to hold the applications." />
 
 # <UDF name="setup_postgresql" label="Configure PostgreSQL and create database?" oneof="Yes,No" default="Yes" />
 # <UDF name="postgresql_database" label="PostgreSQL database name" example="PostgreSQL database name, ASCII only." default="" />
@@ -118,6 +119,10 @@ system_install_build
 system_install_subversion
 system_install_git
 system_record_etc_dir_changes "Installed common utils"
+
+# Create application directory
+mkdir -p $APP_DIR
+chown $DEPLOY_USER_NAME:$DEPLOY_USER_NAME $APP_DIR
 
 # Install and configure apache and mod_wsgi
 if [ "$SETUP_APACHE" == "Yes" ]; then
