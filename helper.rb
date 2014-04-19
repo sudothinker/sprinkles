@@ -1,4 +1,5 @@
-HOST = 'shakingrocks.com'
+# HOST = 'shakingrocks.com'
+HOST = '192.241.219.167'
 # HOSTIP = '173.255.254.65'
 HOSTIP = '192.241.219.167'
 APP_NAME = 'shakingrocks'

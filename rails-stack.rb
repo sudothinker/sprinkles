@@ -20,7 +20,7 @@ policy :rails_stack, :roles => :app do
 end
 
 deployment do
-
+  # First time setup
   delivery :ssh do
     user 'root'
     password 'dexcvspdghap'
@@ -28,6 +28,16 @@ deployment do
     # set :use_sudo, true
     # set :run_method, :sudo
     # recipes ENV['RECIPE'] || 'deploy'
+  end
+
+  # Subsequent changes
+  delivery :capistrano do
+    # user 'deploy'
+    # password 'dexcvspdghap'
+    role :app, '192.241.219.167'
+    set :use_sudo, true
+    set :run_method, :sudo
+    recipes ENV['RECIPE'] || 'deploy'
   end
 
   source do
