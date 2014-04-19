@@ -2,6 +2,7 @@ require File.expand_path('../helper', __FILE__)
 
 policy :rails_stack, :roles => :app do
   requires :base
+  requires :make_users
 
   requires :git
 

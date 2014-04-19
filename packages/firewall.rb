@@ -1,17 +1,18 @@
 package :firewall do
   description "Firewall security"
 
-  noop do
-    pre :install, 'aptitude -y install logcheck logcheck-database'
-    pre :install, 'aptitude -y install fail2ban'
-    # see https://help.ubuntu.com/community/UFW
-    post :install, 'ufw logging on'
-    post :install, 'ufw default deny'
-    post :install, 'ufw allow ssh/tcp'
-    post :install, 'ufw limit ssh/tcp'
-    post :install, 'ufw allow http/tcp'
-    post :install, 'ufw allow http/tcp'
-    post :install, 'ufw allow https/tcp'
-    post :install, 'ufw enable'
-  end
+  runner 'aptitude -y install logcheck logcheck-database'
+  runner 'aptitude -y install fail2ban'
+  # see https://help.ubuntu.com/community/UFW
+  runner 'ufw logging on'
+  runner 'ufw default deny'
+  runner 'ufw allow ssh/tcp'
+  runner 'ufw limit ssh/tcp'
+  runner 'ufw allow http/tcp'
+  runner 'ufw allow http/tcp'
+  runner 'ufw allow https/tcp'
+end
+
+package :enable_firewall do
+  runner 'ufw enable'
 end

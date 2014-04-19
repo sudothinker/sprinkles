@@ -3,10 +3,11 @@ HOST = 'shakingrocks.com'
 HOSTIP = '192.241.219.167'
 APP_NAME = 'shakingrocks'
 HOST_NAME = 'shakingrocks'
+DEPLOY_USER = 'deploy'
 
 $users = [
-  ['michael', 'pass', File.read('/Users/michael/.ssh/id_rsa_do.pub') ],
-  ['deploy', 'pass', File.read('/Users/michael/.ssh/id_rsa_do.pub') ]
+  ['michael', File.read('/Users/uno/.ssh/id_rsa_do.pub') ],
+  ['deploy', File.read('/Users/uno/.ssh/id_rsa_do.pub') ]
 ]
 
 # Load all packages
