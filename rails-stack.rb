@@ -16,6 +16,7 @@ policy :rails_stack, :roles => :app do
   requires :search
   requires :redis
 
+  requires :enable_firewall
   requires :lock_root
 end
 
